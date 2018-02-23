@@ -37,5 +37,4 @@ app.use((err, request, response, next) => {
   response.status(500).send('Something broke!')
 })
 
-var port_number = server.listen(process.env.PORT || port);
-app.listen(port_number);
+app.listen(process.env.PORT || port);
