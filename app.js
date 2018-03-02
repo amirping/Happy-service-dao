@@ -30,7 +30,7 @@ app.use((request, response, next) => {
 // mid to allow CROS
 
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:4200'); // make it * later 
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200'); // make it * later
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   // Request headers you wish to allow
