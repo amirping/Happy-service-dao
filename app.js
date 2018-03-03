@@ -6,6 +6,11 @@ const port = 3000;
 const db_engine = require('./js/engine_db');
 var bodyParser = require("body-parser");
 const cryptage_engine = require('./js/cryptage');
+// loading models
+const User = require('./models/user').User;
+const Connection = require('./models/connection').COnnection;
+// loading routes
+var routes = require('./js/routes');
 // bodyParser loading
 app.use(bodyParser.urlencoded({
   extended: false
@@ -88,22 +93,7 @@ app.all('/', (request, response) => {
 
 //api routings goes here nanananana
 
-app.get('/api', function(req, res) {
-  //res.json(200, {msg: 'OK' });
-  res.status(200).json({
-    msg: 'OK'
-  })
-});
-
-app.post('/api/users', (request, response) => {
-  let b = request.body;
-  let pseudo = request.body.pseudo;
-  let pass = request.body.pass;
-  pass = cryptage_engine.encrypt(pass);
-  // find it in db
-
-  response.json(200, b);
-});
+app.use('/api', routes);
 
 // err handler
 app.use((err, request, response, next) => {
