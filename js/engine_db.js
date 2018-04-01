@@ -5,7 +5,8 @@ created : 28 wed , feb , 2018 / 17:24
 */
 const mongoose = require('mongoose');
 //const db_url =  "mongodb://localhost/mongoose_basics";
-const db_url = process.env.MONGODB_URI;
+let dev_bas = "mongodb://svDirect:allowedbyamir@ds012178.mlab.com:12178/happy-service-db"
+const db_url = process.env.MONGODB_URI || dev_bas;
 const options = {
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 500,

@@ -5,6 +5,30 @@ const crypto = require('crypto');
 module.exports = {
   getUser: function(req, res) {
     // used to return user data
+    let token = req.query.token;
+    console.log("token is => "+token);
+    Connection.findOne({ 'session_token': token }, function (err, cnx_one) {
+      if (err) {
+        console.log(err)
+        throw err
+      }
+      if (cnx_one != null) {
+        let user_id = cnx_one.id_user;
+        User.findById(user_id, function (err, user) {
+          if (err) {
+            console.log(err);
+            throw err
+          } else {
+            ret_user = user ; 
+            ret_user.password = null;
+            res.status(200).json({ 'user': ret_user });
+          }
+         });
+      }
+      else{
+           res.status(200).json({'user':false});       
+      }
+    });
   },
   updateUser: function(req, res) {
     // userd to update user data
