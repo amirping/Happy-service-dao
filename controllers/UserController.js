@@ -6,7 +6,6 @@ module.exports = {
   getUser: function(req, res) {
     // used to return user data
     let token = req.query.token;
-    console.log("token is => "+token);
     Connection.findOne({ 'session_token': token }, function (err, cnx_one) {
       if (err) {
         console.log(err)
@@ -32,6 +31,90 @@ module.exports = {
   },
   updateUser: function(req, res) {
     // userd to update user data
+    // one get 
+    let name = req.body.name;
+    let last_name = req.body.last_name;
+    let resto_name = req.body.resto_name;
+    if (!((name == null || name.length == 0) || (resto_name == null || resto_name.length == 0) || (last_name == null || last_name.length == 0))) {
+      // keep going 
+      let token = req.body.token;
+      Connection.findOne({ 'session_token': token }, function (err, cnx_one) {
+        if (err) {
+          console.log(err)
+          throw err
+        }
+        if (cnx_one != null) {
+          let user_id = cnx_one.id_user;
+          User.findById(user_id, function (err, user) {
+            if (err) {
+              console.log(err);
+              throw err
+            } else {
+              // update the user
+              user.name = name;
+              user.last_name = last_name;
+              user.resto_name = resto_name; 
+              user.save(function (err, user) {
+                if (err) throw err;
+                res.status(200).json({ 'ok': true, 'msg': 'done' });
+              });
+            }
+          });
+        }
+        else {
+          res.status(200).json({'ok':false,'msg': 'cant find user'});
+        }
+      });
+    } else {
+      res.status(200).json({'ok':false,'msg':'invalide or empty argument, all argument required'});
+    }
+  },
+  updateUser_security : function(req,res){
+    // used to update user security data 
+    // on post
+    console.log(req);
+    let token = req.body.token; 
+    let old_pass = req.body.old_password;
+    let new_pass = req.body.new_password;
+    if (!((old_pass == null || old_pass.length == 0)||(new_pass == null || new_pass.length == 0))) {
+      // keep going
+      let old_pass_crypted = cryptage_engine.encrypt(old_pass); 
+      let token = req.body.token;
+      Connection.findOne({ 'session_token': token }, function (err, cnx_one) {
+        if (err) {
+          console.log(err)
+          throw err
+        }
+        if (cnx_one != null) {
+          let user_id = cnx_one.id_user;
+          User.findById(user_id, function (err, user) {
+            if (err) {
+              console.log(err);
+              throw err
+            } else {
+              // check if old_pass == current pass 
+              if(user.password == old_pass_crypted){
+                // update the user security
+                let new_pass_crypted = cryptage_engine.encrypt(new_pass); 
+                user.password = new_pass_crypted;
+                user.save(function (err, user) {
+                  if (err) throw err;
+                  res.status(200).json({ 'ok': true, 'msg': 'done' });
+                });
+              }
+              else{
+                res.status(200).json({ 'ok': false, 'msg': 'wrong old password' });
+              }              
+            }
+          });
+        }
+        else {
+          res.status(200).json({ 'ok': false, 'msg': 'cant find user' });
+        }
+      });
+    } else {
+      res.status(200).json({ 'ok': false, 'msg': 'invalide or empty argument, all argument required' });
+    } 
   },
   postUser: function(req, res) {
     // used to login -> gonna create a token and send him back with msg OK
