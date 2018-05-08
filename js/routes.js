@@ -16,4 +16,5 @@ router.route('/user').post(userCtrl.postUser);
 router.route('/').get(serverCtrl.getApi);
 // Token check for the current user 
 router.route('/token').post(tokenCtrl.isTokenUp);
+
 module.exports = router;
