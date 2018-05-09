@@ -4,7 +4,7 @@ const Order = require('../models/order').Order;
 module.exports = {
     getOrder: function (req, res) {
         // used to return user data
-        let id = req.query.id;
+        let id = req.params.oid;
         Order.findById(id, function (err, order_one) {
             if (err) {
                 console.log(err)
@@ -21,6 +21,21 @@ module.exports = {
                     'msg': 'not found'
                 })
             }
+        });
+    },
+    getAllOrder: function (req, res) {
+        
+        Order.find({}, function (err, ordres) {
+            if(err){
+                console.log(err);
+                throw err;
+            }
+            var orderMap = [];
+            ordres.forEach(order => {
+                orderMap.push(order);
+            });
+
+            res.status(200).json({ 'ok': true, 'data': orderMap});
         });
     },
     updateOrder: function (req, res) {
