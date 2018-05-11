@@ -20,5 +20,5 @@ router.route('/token').post(tokenCtrl.isTokenUp);
 router.route('/order/:oid').get(orderCtrl.getOrder);
 router.route('/order').get(orderCtrl.getAllOrder);
 router.route('/order').post(orderCtrl.addOrder);
-router.route('/order/:id').patch(orderCtrl.updateOrder);
+router.route('/order/:oid').patch(orderCtrl.updateOrder);
 module.exports = router;

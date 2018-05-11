@@ -40,8 +40,8 @@ module.exports = {
     },
     updateOrder: function (req, res) {
         // change stat only 
-        let stat = req.body.stat;
-        let order_db_id = req.body.order_id;
+        let stat = req.body.orderStat;
+        let order_db_id = req.params.oid;
         Order.findById(order_db_id, function (err, order) {
             if (err) {
                 console.log(err);
