@@ -3,6 +3,7 @@ var userCtrl = require('../controllers/UserController')
 var serverCtrl = require('../controllers/ServerController')
 var tokenCtrl = require('../controllers/TokenController')
 var orderCtrl = require('../controllers/OrderController');
+var reservationCtrl = require('../controllers/ReservationController');
 var router = express.Router();
 // get user data { no password returned }
 router.route('/user').get(userCtrl.getUser);
@@ -21,4 +22,8 @@ router.route('/order/:oid').get(orderCtrl.getOrder);
 router.route('/order').get(orderCtrl.getAllOrder);
 router.route('/order').post(orderCtrl.addOrder);
 router.route('/order/:oid').patch(orderCtrl.updateOrder);
+router.route('/reservation/:rid').get(reservationCtrl.getReservation);
+router.route('/reservation').get(reservationCtrl.getAllReservation);
+router.route('/reservation').post(reservationCtrl.addReservation);
+router.route('/reservation/:rid').patch(reservationCtrl.updateReservation);
 module.exports = router;

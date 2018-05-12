@@ -62,7 +62,7 @@ module.exports = {
     addOrder: function (req, res) {
         let order_tmp = req.body.order;
         let order = new Order(order_tmp);
-        order.save(function (err, con) {
+        order.save(function (err, order) {
             if (err) {
                 console.log('Error on save!')
                 throw err
